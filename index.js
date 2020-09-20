@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const expressHandlebars = require('express-handlebars');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const cron = require('node-cron');
 
 const app = express();
 
@@ -24,16 +25,15 @@ app.get('/', (req, res) => {
 app.post('/send', (req, res) => {
 	const output = `
     <p>You have a new contact request</p>
-    <h3>Contact Details</h3>
+    <h3>Join meeting</h3>
     <ul>  
-      <li>Name: ${req.body.name}</li>
-      <li>Company: ${req.body.company}</li>
-      <li>Email: ${req.body.email}</li>
-      <li>Phone: ${req.body.phone}</li>
+			<li>Daily standup call 10:30 am URL: ${req.body.standupCall}</li>
+			<li>6:30 pm call URL: ${req.body.secondCall}</li>
+      <li>7.00 pm Client call URL: ${req.body.clientCall}</li>
     </ul>
     <h3>Message</h3>
     <p>${req.body.message}</p>
-  `;
+	`;
 
 	let transporter = nodemailer.createTransport({
 		host: 'smtp.gmail.com',
@@ -50,21 +50,59 @@ app.post('/send', (req, res) => {
 
 	let mailOptions = {
 		from: ' <absfake1998@gmail.com>',
-		to: 'hiren.panchal@bacancytechnology.com,abhishek.bhavsar@bacancytechnology.com', //you can send email to the multiple gmail account
-		subject: 'nodeMailer demo successful ', 
-		text: 'nodemailer', 
-		html: output, 
+		to: 'abhibhavsar1998@gmail.com', //you can send email to the multiple gmail account
+		//	to: 'viren.gediya@bacancytechnology.com,sachin.patel,  shivam.pande@bacancytechnology.com, amit.chhatbar@bacancytechnology.com, abhishek.bhavsar@bacancytechnology.com, avani.j.patel@bacancytechnology.com, hardik.thakar@bacancytechnology.com, hiren.panchal@bacancytechnology.com, meet.patel@bacancytechnology.com, mokshit.shah@bacancytechnology.com, riddhi.pujara@bacancytechnology.com, tushar.hirpara@bacancytechnology.com', //you can send email to the multiple gmail account
+
+		subject: 'Daily standup call 10.30 ',
+		text: 'Join the call',
+		html: output,
 	};
 
-	transporter.sendMail(mailOptions, (error, info) => {
-		if (error) {
-			return console.log(error);
-		}
-		console.log('Message sent: %s', info.messageId);
-		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-		console.log("email sent successfully work!!")
-		res.send("Your email is sent!!")
-	});
+	// cron.schedule('00 30 11 * * 1-5') mon-fri at 10:28 am, 
+	// Used 24 Hours clock format and mail sent mon-fri
+	// For the first daily standup call @10.30 am
+
+	const callOne = cron.schedule('00 28 10 * * *', () => {
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}
+			console.log('Message sent: %s', info.messageId);
+			console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+			console.log("email sent successfully work!!")
+			res.send("Your email is sent!!")
+		});
+	})
+
+	// For the Second call @6.30 pm
+	const callSecond = cron.schedule('00 58 17 * * *', () => {
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}
+			console.log('Message sent: %s', info.messageId);
+			console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+			console.log("email sent successfully work!!")
+			res.send("Your email is sent!!")
+		});
+	})
+
+	// For the Second call @7.00 pm
+	const callThird = cron.schedule('00 58 18 * * *', () => {
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}
+			console.log('Message sent: %s', info.messageId);
+			console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+			console.log("email sent successfully work!!")
+			res.send("Your email is sent!!")
+		});
+	})
+
+	callOne.start();
+	callSecond.start();
+	callThird.start();
 });
 
 app.listen(3000, () => console.log('Server started...'));
