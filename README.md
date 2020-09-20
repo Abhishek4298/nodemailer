@@ -1,4 +1,4 @@
-# Mail sending and schedule message time for packleader for call
+# for packleader call scheduling mail setup
 
 Nodemailer to send emails
 

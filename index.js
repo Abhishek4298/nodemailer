@@ -39,6 +39,10 @@ app.post('/send', (req, res) => {
 		host: 'smtp.gmail.com',
 		port: 587,
 		secure: false,
+
+		//for your gmail setup
+		//write your email and password 
+		//Go to you google account and goto security > Less secure app access: on
 		auth: {
 			user: 'absfake1998@gmail.com',
 			pass: 'abs19@ks'
