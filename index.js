@@ -64,7 +64,7 @@ app.post('/send', (req, res) => {
 	// Used 24 Hours clock format and mail sent mon-fri
 	// For the first daily standup call @10.30 am
 
-	const callOne = cron.schedule('00 28 10 * * *', () => {
+	const callOne = cron.schedule('00 28 10 * * 1-5', () => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				return console.log(error);
@@ -77,7 +77,7 @@ app.post('/send', (req, res) => {
 	})
 
 	// For the Second call @6.30 pm
-	const callSecond = cron.schedule('00 58 17 * * *', () => {
+	const callSecond = cron.schedule('00 58 17 * * 1-5', () => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				return console.log(error);
@@ -90,7 +90,7 @@ app.post('/send', (req, res) => {
 	})
 
 	// For the Second call @7.00 pm
-	const callThird = cron.schedule('00 58 18 * * *', () => {
+	const callThird = cron.schedule('00 58 18 * * 1-5', () => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				return console.log(error);
