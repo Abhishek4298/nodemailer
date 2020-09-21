@@ -24,15 +24,13 @@ app.get('/', (req, res) => {
 
 app.post('/send', (req, res) => {
 	const output = `
-    <p>You have a new contact request</p>
+	<p>Packleader team call</p>
     <h3>Join meeting</h3>
     <ul>  
 			<li>Daily standup call 10:30 am URL: ${req.body.standupCall}</li>
 			<li>6:30 pm call URL: ${req.body.secondCall}</li>
       <li>7.00 pm Client call URL: ${req.body.clientCall}</li>
     </ul>
-    <h3>Message</h3>
-    <p>${req.body.message}</p>
 	`;
 
 	let transporter = nodemailer.createTransport({
